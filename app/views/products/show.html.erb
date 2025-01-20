@@ -1,0 +1,12 @@
+<h1>Product Details</h1>
+
+<h2><strong>Name : </strong><%= @product.name %></h2>
+<p><strong>Description : </strong><%= @product.description %></p>
+<h2><strong>Price : </strong><%= @product.price %> Rs.</h2>
+
+<% if current_user.has_role?(:admin) %>
+    <%= link_to "Delete", product_path(@product), method: :delete %>
+    <%= link_to "Edit", edit_product_path(@product) %>
+<% else %>
+    <%= button_to "Add to orders", add_item_order_path(find_or_create_pending_order, product_id: @product.id), method: :post  %> 
+<% end %>

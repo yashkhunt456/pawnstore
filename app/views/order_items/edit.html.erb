@@ -1,0 +1,10 @@
+<h1>Edit Order Item</h1>
+<%= form_with model: [@order, @order_item], local: true do |f| %>
+  <div>
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity, min: 1 %>
+  </div>
+
+  <%= f.submit "Update Item" %>
+<% end %>
+

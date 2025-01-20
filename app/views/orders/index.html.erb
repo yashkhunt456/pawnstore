@@ -1,0 +1,28 @@
+<h1>Your Orders</h1>
+
+<% if @orders.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td><%= order.id %></td>
+          <td><%= order.status.capitalize %></td>
+          <td>
+            <%= link_to 'View Order', order_path(order) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>You don't have any orders yet.</p>
+<% end %>
+
+<%= link_to 'Create New Order', new_order_path %>
