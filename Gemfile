@@ -66,6 +66,8 @@ gem "devise", "~> 4.9"
 
 gem "rolify"
 
+gem 'kaminari'
+
 group :development do
   gem "letter_opener"
 end

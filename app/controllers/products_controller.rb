@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   before_action :admin_access, only: %i[new create edit update destroy]
 
   def index
-    @products = Product.all
+    @products = Product.page(params[:page]).per(5)
   end
 
   def show
