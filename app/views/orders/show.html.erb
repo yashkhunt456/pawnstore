@@ -2,41 +2,46 @@
 <p>Status: <%= @order.status.capitalize %></p>
 
 <h2>Order Items</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Total Price</th>
-      <th colspan="2">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @order_items.each do |item| %>
+<% if @order.order_items.any? %>
+  <table>
+    <thead>
       <tr>
-        <td><%= item.product.name %></td>
-        <td><%= item.quantity %></td>
-        <td><%= item.total_price %></td>
-        <td>
-          <%= link_to "Edit", edit_order_order_item_path(@order, item) %>
-        </td>
-        <td>
-          <%= button_to "Remove", remove_item_order_path(@order, order_item_id: item.id), method: :delete, data: { confirm: "Are you sure?" } %>
-        </td>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Total Price</th>
+        <th colspan="2">Actions</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @order_items.each do |item| %>
+        <tr>
+          <td><%= item.product.name.truncate(40, omission: '...') %></td>
+          <td><%= item.quantity %></td>
+          <td><%= item.total_price %></td>
+          <td>
+            <%= link_to "Edit", edit_order_order_item_path(@order, item) %>
+          </td>
+          <td>
+            <%= button_to "Remove", remove_item_order_path(@order, order_item_id: item.id), method: :delete, data: { confirm: "Are you sure?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
+  <%= button_to "Place Order", place_order_order_path(@order), method: :post %>
+<% else %>
+  <p> order is empty. </p>
+<% end %>
 <br>
-<%= button_to "Place Order", place_order_order_path(@order), method: :post %>
-
+<%= button_to "Delete", order_path(@order), method: :delete %>  
 <h2>Add Item</h2>
 <%= form_with url: add_item_order_path(@order), method: :post do |f| %>
   <%= f.label :product_id, "Select Product" %>
   <%= f.select :product_id, options_from_collection_for_select(Product.all, :id, :name) %>
-  
   <%= f.label :quantity, "Quantity" %>
   <%= f.number_field :quantity, value: 1, min: 1 %>
 
   <%= f.submit "Add to Order" %>
 <% end %>
+

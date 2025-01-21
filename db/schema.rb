@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_15_155413) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_20_084748) do
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "product_id", null: false
     t.integer "quantity", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_order_items_on_deleted_at"
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["product_id"], name: "index_order_items_on_product_id"
   end
@@ -27,6 +29,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_155413) do
     t.integer "total_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_orders_on_deleted_at"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -36,6 +40,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_155413) do
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_products_on_deleted_at"
   end
 
   create_table "roles", force: :cascade do |t|

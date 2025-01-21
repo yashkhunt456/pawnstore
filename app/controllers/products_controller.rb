@@ -1,9 +1,18 @@
 class ProductsController < ApplicationController
-  before_action :find_product, only: %i[show edit update destroy]
-  before_action :admin_access, only: %i[new create edit update destroy]
+  before_action :find_product, only: %i[recover show edit update destroy]
+  before_action :admin_access, only: %i[soft_delete_index recover new create edit update destroy]
 
   def index
     @products = Product.page(params[:page]).per(5)
+  end
+
+  def soft_delete_index
+    @products = Product.only_deleted.page(params[:page]).per(5)
+  end
+
+  def recover
+    @product.recover
+    redirect_to @product, notice: "product recovered."
   end
 
   def show
@@ -48,7 +57,7 @@ class ProductsController < ApplicationController
   end
 
   def find_product
-    @product = Product.find(params[:id])
+    @product = Product.with_deleted.find(params[:id])
   end
 
   def admin_access

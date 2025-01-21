@@ -4,10 +4,20 @@ class OrdersController < ApplicationController
   def index
     @orders = current_user.orders.all
   end
+
+  def soft_delete_index
+    @orders = current_user.orders.only_deleted.page(params[:page]).per(5)
+  end
+
+  def recover
+    @order = current_user.orders.with_deleted.find(params[:id])
+    @order.recover
+    redirect_to @order, notice: "Order recoverd."
+  end 
   
   def show
-    @order = current_user.orders.find(params[:id])
-    @order_items = @order.order_items
+    @order = current_user.orders.with_deleted.find(params[:id])
+    @order_items = @order.order_items.with_deleted
   end
 
   def new
@@ -41,6 +51,13 @@ class OrdersController < ApplicationController
     else
       redirect_to orders_path, alert: "Unable to place the order."
     end
+  end
+
+  def destroy
+    @order = current_user.orders.with_deleted.find(params[:id])
+    @order.destroy
+
+    redirect_to orders_path, status: :see_other
   end
 end
 

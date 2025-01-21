@@ -68,6 +68,8 @@ gem "rolify"
 
 gem 'kaminari'
 
+gem "acts_as_paranoid", "~> 0.10.3"
+
 group :development do
   gem "letter_opener"
 end

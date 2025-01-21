@@ -1,19 +1,27 @@
 Rails.application.routes.draw do
 
   root "products#index"
-  resources :products
+  resources :products do
+    collection do
+      get :soft_delete_index
+    end
+    member do
+      get :recover
+    end
+  end
+
   resources :orders do
     member do
       post :add_item
       delete :remove_item
       post :place_order
+      get :recover
+    end
+    collection do
+      get :soft_delete_index
     end
     resources :order_items, only: [:create, :edit, :update, :destroy]
   end
-  # resources :orders, only: [:index, :show, :new, :create] do
-  #   post "add_item", on: :member
-  #   delete "remove_item", on: :member
-  # end
   devise_for :users, sign_out_via: [:get]
 
 

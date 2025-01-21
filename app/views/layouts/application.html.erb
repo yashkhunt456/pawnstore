@@ -30,7 +30,8 @@
       <br>
       <h1>Welcom <%= current_user.username %> To Our Site!</h1> 
       <% if current_user.has_role?(:admin) %>
-        <%= link_to "Add New Product", new_product_path %>
+        <%= link_to "Add New Product", new_product_path %>&nbsp&nbsp&nbsp
+        <%= link_to "Removed Products", soft_delete_index_products_path %>
       <% else %>
         <%= link_to "Orders", orders_path %>
       <% end %>

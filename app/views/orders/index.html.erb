@@ -24,5 +24,7 @@
 <% else %>
   <p>You don't have any orders yet.</p>
 <% end %>
+<br>
+<%= link_to "Deleted Orders", soft_delete_index_orders_path %>&nbsp&nbsp&nbsp
 
 <%= link_to 'Create New Order', new_order_path %>
